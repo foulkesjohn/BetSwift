@@ -1,0 +1,686 @@
+{
+  "ct": "SUB_IMAGE",
+  "heartbeatMs": 5000,
+  "id": 1,
+  "clk": "AAAAAAAA",
+  "mc": [
+    {
+      "marketDefinition": {
+        "complete": true,
+        "discountAllowed": true,
+        "status": "OPEN",
+        "crossMatching": false,
+        "openDate": "2017-09-09T12:35:00.000Z",
+        "eventTypeId": "7",
+        "runnersVoidable": false,
+        "countryCode": "GB",
+        "regulators": [
+          "MR_INT"
+        ],
+        "marketType": "PLACE",
+        "eventId": "28377546",
+        "marketTime": "2017-09-09T14:55:00.000Z",
+        "inPlay": false,
+        "version": 1761891385,
+        "priceLadderDefinition": {
+          "type": "CLASSIC"
+        },
+        "bspMarket": true,
+        "persistenceEnabled": true,
+        "runners": [
+          {
+            "status": "ACTIVE",
+            "id": 11985857,
+            "sortPriority": 1,
+            "adjustmentFactor": 15.224
+          },
+          {
+            "status": "ACTIVE",
+            "id": 32092,
+            "sortPriority": 2,
+            "adjustmentFactor": 14.374
+          },
+          {
+            "status": "ACTIVE",
+            "id": 11931587,
+            "sortPriority": 3,
+            "adjustmentFactor": 13.516
+          },
+          {
+            "status": "ACTIVE",
+            "id": 11828469,
+            "sortPriority": 4,
+            "adjustmentFactor": 12.713
+          },
+          {
+            "status": "ACTIVE",
+            "id": 13079068,
+            "sortPriority": 5,
+            "adjustmentFactor": 11.665
+          },
+          {
+            "status": "ACTIVE",
+            "id": 10073093,
+            "sortPriority": 6,
+            "adjustmentFactor": 11.34
+          },
+          {
+            "status": "ACTIVE",
+            "id": 12077275,
+            "sortPriority": 7,
+            "adjustmentFactor": 10.248
+          },
+          {
+            "status": "ACTIVE",
+            "id": 2533739,
+            "sortPriority": 8,
+            "adjustmentFactor": 10.242
+          },
+          {
+            "status": "ACTIVE",
+            "id": 11892053,
+            "sortPriority": 9,
+            "adjustmentFactor": 10.228
+          },
+          {
+            "status": "ACTIVE",
+            "id": 260003,
+            "sortPriority": 10,
+            "adjustmentFactor": 7.332
+          },
+          {
+            "status": "ACTIVE",
+            "id": 11082636,
+            "sortPriority": 11,
+            "adjustmentFactor": 6.217
+          },
+          {
+            "status": "ACTIVE",
+            "id": 12730660,
+            "sortPriority": 12,
+            "adjustmentFactor": 6.033
+          },
+          {
+            "status": "ACTIVE",
+            "id": 11324580,
+            "sortPriority": 13,
+            "adjustmentFactor": 5.393
+          },
+          {
+            "status": "ACTIVE",
+            "id": 11292535,
+            "sortPriority": 14,
+            "adjustmentFactor": 4.548
+          },
+          {
+            "status": "REMOVED",
+            "id": 11271116,
+            "sortPriority": 15,
+            "adjustmentFactor": 3.261,
+            "removalDate": "2017-09-09T07:57:50.000Z"
+          },
+          {
+            "status": "REMOVED",
+            "id": 65077,
+            "sortPriority": 16,
+            "adjustmentFactor": 14.322,
+            "removalDate": "2017-09-09T09:58:23.000Z"
+          }
+        ],
+        "marketBaseRate": 5,
+        "venue": "Ascot",
+        "timezone": "Europe/London",
+        "betDelay": 0,
+        "numberOfActiveRunners": 14,
+        "bspReconciled": false,
+        "suspendTime": "2017-09-09T14:55:00.000Z",
+        "turnInPlayEnabled": true,
+        "numberOfWinners": 4,
+        "bettingType": "ODDS"
+      },
+      "id": "1.133983858",
+      "img": true,
+      "rc": [
+        {
+          "id": 10073093,
+          "ltp": 3.15,
+          "batb": [
+            [
+              0,
+              3.2,
+              7.3
+            ],
+            [
+              2,
+              1.63,
+              134.92
+            ],
+            [
+              1,
+              1.9,
+              111.11
+            ]
+          ],
+          "batl": [
+            [
+              2,
+              3.7,
+              6.2
+            ],
+            [
+              1,
+              3.35,
+              129.7
+            ],
+            [
+              0,
+              3.3,
+              31.7
+            ]
+          ]
+        },
+        {
+          "id": 260003,
+          "ltp": 4,
+          "batb": [
+            [
+              2,
+              2.52,
+              65.78
+            ],
+            [
+              1,
+              2.9,
+              8.6
+            ],
+            [
+              0,
+              3.3,
+              16.32
+            ]
+          ],
+          "batl": [
+            [
+              2,
+              5,
+              5.87
+            ],
+            [
+              1,
+              3.85,
+              4.5
+            ],
+            [
+              0,
+              3.7,
+              22.03
+            ]
+          ]
+        },
+        {
+          "id": 11985857,
+          "ltp": 2.14,
+          "batb": [
+            [
+              2,
+              1.52,
+              192.3
+            ],
+            [
+              1,
+              2.12,
+              77.95
+            ],
+            [
+              0,
+              2.14,
+              8.550000000000001
+            ]
+          ],
+          "batl": [
+            [
+              2,
+              2.3,
+              16.3
+            ],
+            [
+              1,
+              2.2,
+              3
+            ],
+            [
+              0,
+              2.18,
+              62.2
+            ]
+          ]
+        },
+        {
+          "id": 32092,
+          "ltp": 2.3,
+          "batb": [
+            [
+              2,
+              2,
+              13.7
+            ],
+            [
+              1,
+              2.02,
+              30.21
+            ],
+            [
+              0,
+              2.26,
+              2.27
+            ]
+          ],
+          "batl": [
+            [
+              2,
+              2.56,
+              6.9
+            ],
+            [
+              1,
+              2.52,
+              24.21
+            ],
+            [
+              0,
+              2.38,
+              2.97
+            ]
+          ]
+        },
+        {
+          "id": 11082636,
+          "ltp": 5.1,
+          "batb": [
+            [
+              2,
+              3,
+              6.09
+            ],
+            [
+              1,
+              3.95,
+              6.8
+            ],
+            [
+              0,
+              4,
+              46.94
+            ]
+          ],
+          "batl": [
+            [
+              2,
+              5.4,
+              5.9
+            ],
+            [
+              1,
+              5.3,
+              2
+            ],
+            [
+              0,
+              5.1,
+              1.62
+            ]
+          ]
+        },
+        {
+          "id": 13079068,
+          "ltp": 2.7,
+          "batb": [
+            [
+              2,
+              1.9,
+              111.11
+            ],
+            [
+              1,
+              2.62,
+              12.5
+            ],
+            [
+              0,
+              2.7,
+              9.1
+            ]
+          ],
+          "batl": [
+            [
+              2,
+              3.1,
+              8.1
+            ],
+            [
+              1,
+              2.98,
+              20.48
+            ],
+            [
+              0,
+              2.94,
+              5.32
+            ]
+          ]
+        },
+        {
+          "id": 11324580,
+          "ltp": 9.57,
+          "batb": [
+            [
+              2,
+              7.2,
+              9.029999999999999
+            ],
+            [
+              1,
+              7.4,
+              8.24
+            ],
+            [
+              0,
+              10,
+              2.9
+            ]
+          ],
+          "batl": [
+            [
+              2,
+              95,
+              1
+            ],
+            [
+              1,
+              38,
+              15
+            ],
+            [
+              0,
+              32,
+              2.95
+            ]
+          ]
+        },
+        {
+          "ltp": 2.24,
+          "id": 65077
+        },
+        {
+          "id": 11892053,
+          "ltp": 3.35,
+          "batb": [
+            [
+              2,
+              2.22,
+              81.95999999999999
+            ],
+            [
+              1,
+              3.2,
+              47.64
+            ],
+            [
+              0,
+              3.3,
+              18.49
+            ]
+          ],
+          "batl": [
+            [
+              2,
+              3.85,
+              6
+            ],
+            [
+              1,
+              3.75,
+              11.3
+            ],
+            [
+              0,
+              3.45,
+              100.94
+            ]
+          ]
+        },
+        {
+          "id": 11931587,
+          "ltp": 2.5,
+          "batb": [
+            [
+              2,
+              1.63,
+              88.89
+            ],
+            [
+              0,
+              2.56,
+              3.12
+            ],
+            [
+              1,
+              2.3,
+              11.8
+            ]
+          ],
+          "batl": [
+            [
+              2,
+              2.84,
+              12.5
+            ],
+            [
+              1,
+              2.72,
+              5
+            ],
+            [
+              0,
+              2.7,
+              5.54
+            ]
+          ]
+        },
+        {
+          "id": 12077275,
+          "ltp": 3.6,
+          "batb": [
+            [
+              0,
+              3.5,
+              13
+            ],
+            [
+              2,
+              3.2,
+              19.82
+            ],
+            [
+              1,
+              3.3,
+              13.85
+            ]
+          ],
+          "batl": [
+            [
+              0,
+              3.6,
+              44.08
+            ],
+            [
+              2,
+              4,
+              5
+            ],
+            [
+              1,
+              3.95,
+              3.9
+            ]
+          ]
+        },
+        {
+          "id": 11828469,
+          "ltp": 2.6,
+          "batb": [
+            [
+              1,
+              2.58,
+              11.59
+            ],
+            [
+              0,
+              2.6,
+              6.74
+            ],
+            [
+              2,
+              2.46,
+              67.90000000000001
+            ]
+          ],
+          "batl": [
+            [
+              1,
+              2.86,
+              10.2
+            ],
+            [
+              2,
+              2.96,
+              5
+            ],
+            [
+              0,
+              2.64,
+              25
+            ]
+          ]
+        },
+        {
+          "id": 11292535,
+          "ltp": 5.6,
+          "batb": [
+            [
+              2,
+              3.75,
+              16.27
+            ],
+            [
+              1,
+              4.2,
+              2.99
+            ],
+            [
+              0,
+              5.1,
+              5.7
+            ]
+          ],
+          "batl": [
+            [
+              2,
+              7.8,
+              10
+            ],
+            [
+              1,
+              7.2,
+              8.470000000000001
+            ],
+            [
+              0,
+              6.8,
+              3.5
+            ]
+          ]
+        },
+        {
+          "id": 2533739,
+          "ltp": 3.15,
+          "batb": [
+            [
+              2,
+              2.96,
+              19.75
+            ],
+            [
+              1,
+              2.98,
+              6.09
+            ],
+            [
+              0,
+              3.5,
+              2.27
+            ]
+          ],
+          "batl": [
+            [
+              2,
+              3.8,
+              6.5
+            ],
+            [
+              1,
+              3.75,
+              4.99
+            ],
+            [
+              0,
+              3.65,
+              7.26
+            ]
+          ]
+        },
+        {
+          "batl": [
+            [
+              2,
+              8,
+              8.5
+            ],
+            [
+              1,
+              5.1,
+              3.4
+            ],
+            [
+              0,
+              5,
+              38.15
+            ]
+          ],
+          "batb": [
+            [
+              2,
+              3.3,
+              2.99
+            ],
+            [
+              1,
+              4.1,
+              7.5
+            ],
+            [
+              0,
+              4.3,
+              14.19
+            ]
+          ],
+          "id": 12730660
+        }
+      ]
+    }
+  ],
+  "pt": 1504957776357,
+  "conflateMs": 0,
+  "initialClk": "yxnoxraAE8sZx6KJ8RLLGa+q+oMT",
+  "op": "mcm"
+}
