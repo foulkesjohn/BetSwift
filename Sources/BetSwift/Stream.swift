@@ -6,8 +6,8 @@ import Dispatch
 private let LINEENDING = "\r\n"
 private let LINEENDINGBYTE = LINEENDING.data(using: .utf8)!
 
-public enum Event {
-  case change(ChangeType)
+public enum Event<T: ChangeType> {
+  case change(T)
   case error
 }
 
@@ -39,7 +39,7 @@ public class Stream<T: ChangeType> {
   private let config: Config
   private let socket: Socket
   private let handler: Handler
-  private var queue: Queue<Event>
+  private var queue: Queue<Event<T>>
   private let dispatchQueue: DispatchQueue
   private var state: State = .notConnected {
     didSet {
@@ -48,7 +48,7 @@ public class Stream<T: ChangeType> {
   }
   
   public init(config: Config,
-              queue: Queue<Event>,
+              queue: Queue<Event<T>>,
               dispatchQueue: DispatchQueue = DispatchQueue(label: "betswift.queue.stream"),
               handler: @escaping Handler) {
     self.config = config
@@ -61,8 +61,8 @@ public class Stream<T: ChangeType> {
                                              withPassword: config.password,
                                              usingSelfSignedCerts: true)
     #if os(Linux)
-    sslConfig = SSLService.Configuration(withCACertificateFilePath: nil,
-                                             usingCertificateFile: config.certPath)
+      sslConfig = SSLService.Configuration(withCACertificateFilePath: nil,
+                                           usingCertificateFile: config.certPath)
     #endif
     let sslService = try! SSLService(usingConfiguration: sslConfig)
     sslService?.skipVerification = true
@@ -123,7 +123,7 @@ public class Stream<T: ChangeType> {
     case .status(_):
       if state == .notConnected { state = .connected }
     case .mcm(let change):
-      queue.add(.change(change))
+      queue.add(.change(change as! T))
     default:
       if let next = op.next() {
         try send(next)
@@ -169,3 +169,4 @@ public extension Array where Element == Data {
     }
   }
 }
+
