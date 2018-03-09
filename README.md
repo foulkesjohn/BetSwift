@@ -2,6 +2,8 @@
 
 Swift wrapper for [Betfair API-NG](http://docs.developer.betfair.com/docs/display/1smk3cen4v3lu3yomq5qye0ni). Currently only market streaming is supported.
 
+It is built on top of [Swift NIO](https://github.com/apple/swift-nio)
+
 This is untested in production. Using this as-is would be a bad idea. Memory consumption especially needs to be tested.
 
 ## Installation
@@ -37,31 +39,7 @@ SessionToken.fetch(params: sessionParams) {
 }
 ```
 
-Once you have a token you can connect the stream. You will need to pass the config, and a `Queue` where the events will added to be processed.
-
-```swift
-var queue = Queue<BetSwift.Event>()
-
-typealias StreamType = BetSwift.Stream<ChangeMessage<MarketChange>>
-
-func connect(sessionToken: String) {
-  do {
-    let authentication = Authentication(id: 1,
-                                        appKey: "appkey",
-                                        session: sessionToken)
-    let config = StreamType.Config(endpoint: "stream-api-integration.betfair.com",
-                                   certPath: "path/to/pem_file_or.p12",
-                                   password: "cert_password",
-                                   authentication: authentication)
-    let stream = StreamType(config: config,
-                            queue: queue,
-                            handler: stateChanged)
-    try stream.start()
-  } catch {
-    print(error)
-  }
-}
-```
+Once you have a token you can connect the stream. You will need to create a handler which sends the authentication `Op`. Once connected you can send a subscription.
 
 Once the stream has connected you can send the subscription:
 
@@ -83,36 +61,11 @@ let marketSubscription = MarketSubscription(id: 1,
                                             marketFilter: marketFilter,
                                             marketDataFilter: marketDataFilter)
 
-func stateChanged(state: StreamType.State,
-                  stream: StreamType) {
-  if state == .connected {
-    try! stream.send(.marketSubscription(marketSubscription))
-  }
-}
+let op = Op.marketSubscription(marketSubscription)
+ctx.writeAndFlush(wrapOutboundOut(op), promise: nil)
 ```
 
 You should then have events on the queue which can be processed. You may want to do this on a separate `DispatchQueue`/thread:
-
-
-```swift
-let processQueue = DispatchQueue(label: "betswift.queue.process")
-
-func process(queue: Queue<BetSwift.Event>) {
-  while true {
-    if !queue.isEmpty {
-      let event = queue.pop()
-      switch event {
-      case .change(let change):
-        print(change)
-      case .error:
-        print("error")
-      }
-    }
-  }
-}
-
-processQueue.async { process(queue: queue) }
-```
 
 ## Todo
 
