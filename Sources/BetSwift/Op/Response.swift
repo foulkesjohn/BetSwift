@@ -10,37 +10,50 @@ public struct Connection: Codable {
 public protocol ChangeType {}
 
 public struct ChangeMessage<Change: Decodable>: Decodable, ChangeType {
-  let id: Int
-  let ct: String?
-  let initialClk: String?
-  let clk: String
-  let mc: [Change]
+  public let id: Int
+  public let ct: String?
+  public let initialClk: String?
+  public let clk: String
+  public let mc: [Change]?
 }
 
 public struct MarketChange: Decodable {
-  let img: Bool?
-  let id: String
-  let marketDefinition: MarketDefinition?
-  let rc: [RunnerChange]?
+  public let img: Bool = false
+  public let id: String
+  public let marketDefinition: MarketDefinition?
+  public let rc: [RunnerChange]?
+  public let tv: Float?
   
   public struct MarketDefinition: Decodable {
     public struct Runner: Decodable {
-      let id: Int
-      let status: String
+      public let id: Int
+      public let status: Status
+      public enum Status: String, Decodable {
+        case active = "ACTIVE"
+        case winner = "WINNER"
+        case loser = "LOSER"
+        case placed = "PLACED"
+        case removedVacant = "REMOVED_VACANT"
+        case removed = "REMOVED"
+        case hidden = "HIDDEN"
+      }
     }
-    let runners: [Runner]?
+    public let runners: [Runner]?
+    public let inPlay: Bool
+    public let status: String
   }
   public struct RunnerChange: Decodable {
-    let id: Int
-    let ltp: DeltaChangeValue?
-    let batb: RunnerChangeTriple?
-    let batl: RunnerChangeTriple?
+    public let id: Int
+    public let ltp: Float?
+    public let batb: RunnerChangeTriple?
+    public let batl: RunnerChangeTriple?
+    public let tv: Float?
   }
 }
 
 public struct Status: Codable {
-  let id: Int
-  let code: String
+  public let id: Int
+  public let code: String
   enum CodingKeys: String, CodingKey {
     case id
     case code = "statusCode"
