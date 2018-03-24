@@ -65,7 +65,21 @@ let op = Op.marketSubscription(marketSubscription)
 ctx.writeAndFlush(wrapOutboundOut(op), promise: nil)
 ```
 
-You should then have events on the queue which can be processed. You may want to do this on a separate `DispatchQueue`/thread:
+Create your own `ChannelInboundHandler` with `InboundIn` type as `Op` to receive `Op`'s from stream
+
+```swift
+public class OpHandler: ChannelInboundHandler {
+  public typealias InboundIn = Op
+  public typealias OutboundOut = Op
+
+  public func channelRead(ctx: ChannelHandlerContext, data: NIOAny) {
+    let op = unwrapInboundIn(data)
+
+    let outOp = ....
+    ctx.writeAndFlush(wrapOutboundOut(op), promise: nil)
+  }
+}
+```
 
 ## Todo
 
