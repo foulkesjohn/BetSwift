@@ -38,16 +38,17 @@ public struct MarketCache {
     self.cache = cache
   }
   
-  public mutating func insert(change: MarketChange) {
+  public mutating func insert(change: MarketChange, publishTime: Date) {
     if change.img || cache[change.id] == nil {
       if let definition = change.marketDefinition,
         let marketBook = MarketBook(definition: definition) {
         cache[change.id] = marketBook
       }
     } else if var marketBook = cache[change.id] {
-      marketBook.insert(change)
+      marketBook.insert(change,
+                        publishTime: publishTime)
       cache[change.id] = marketBook
-    } 
+    }
   }
 }
 
@@ -73,6 +74,7 @@ public struct MarketBook {
   fileprivate var runners = DictionaryType()
   fileprivate(set) var definition: MarketChange.MarketDefinition
   fileprivate(set) var totalMatched: Float?
+  public private(set) var publishTime: Date?
   
   public var inPlay: Bool {
     return definition.inPlay
@@ -137,7 +139,9 @@ extension MarketBook {
 }
 
 extension MarketBook {
-  public mutating func insert(_ marketChange: MarketChange) {
+  public mutating func insert(_ marketChange: MarketChange,
+                              publishTime: Date) {
+    self.publishTime = publishTime
     totalMatched = marketChange.tv
     if let definition = marketChange.marketDefinition {
       self.definition = definition
@@ -173,3 +177,4 @@ extension MarketBook {
     }
   }
 }
+
