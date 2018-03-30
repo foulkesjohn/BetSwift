@@ -73,7 +73,7 @@ public struct MarketBook {
   
   fileprivate var runners = DictionaryType()
   fileprivate(set) var definition: MarketChange.MarketDefinition
-  fileprivate(set) var totalMatched: Float?
+  public private(set) var totalMatched: Float?
   public private(set) var publishTime: Date?
   
   public var inPlay: Bool {
@@ -85,20 +85,22 @@ public struct MarketBook {
   }
   
   public var overround: Float {
-    let activeRunners = runners.filter { $0.value.isActive }
-    return activeRunners.reduce(0) {
-      acc, val in
-      guard let price = val.value.bestAvailableToBack.one?.price else { return acc }
-      return acc + (1 / price)
+    return runners
+      .filter { $0.value.isActive }
+      .reduce(0) {
+        acc, val in
+        guard let price = val.value.bestAvailableToBack.one?.price else { return acc }
+        return acc + (1 / price)
     }
   }
   
   public var underround: Float {
-    let activeRunners = runners.filter { $0.value.isActive }
-    return activeRunners.reduce(0) {
-      acc, val in
-      guard let price = val.value.bestAvailableToLay.one?.price else { return acc }
-      return acc + (1 / price)
+    return runners
+      .filter { $0.value.isActive }
+      .reduce(0) {
+        acc, val in
+        guard let price = val.value.bestAvailableToLay.one?.price else { return acc }
+        return acc + (1 / price)
     }
   }
   
@@ -109,7 +111,8 @@ public struct MarketBook {
     self.runners = runners.reduce(DictionaryType()) {
       acc, runner in
       var runners = acc
-      runners[runner.id] = RunnerBook(id: runner.id)
+      runners[runner.id] = RunnerBook(id: runner.id,
+                                      isActive: runner.status == .active)
       return runners
     }
   }
@@ -145,6 +148,14 @@ extension MarketBook {
     totalMatched = marketChange.tv
     if let definition = marketChange.marketDefinition {
       self.definition = definition
+      if let runners = definition.runners {
+        for runner in runners {
+          if var runnerBook = self[runner.id] {
+            runnerBook.isActive = runner.status == .active
+            self[runner.id] = runnerBook
+          }
+        }
+      }
     }
     if let runnerChanges = marketChange.rc {
       for runnerChange in runnerChanges {
@@ -159,6 +170,9 @@ extension MarketBook {
           }
           if let bestAvailableToLay = runnerChange.batl {
             runnerBook.bestAvailableToLay.apply(changes: bestAvailableToLay)
+          }
+          if let totalMatched = runnerChange.tv {
+            runnerBook.totalMatched = totalMatched
           }
           runnerBook.isActive = isActive
           self[runnerChange.id] = runnerBook
