@@ -1,7 +1,7 @@
 import Foundation
 
 public struct Connection: Codable {
-  let id: String
+  public let id: String
   enum CodingKeys: String, CodingKey {
     case id = "connectionId"
   }
@@ -15,6 +15,7 @@ public struct ChangeMessage<Change: Decodable>: Decodable, ChangeType {
   public let initialClk: String?
   public let clk: String
   public let mc: [Change]?
+  public let pt: Date
 }
 
 public struct MarketChange: Decodable {
@@ -59,3 +60,4 @@ public struct Status: Codable {
     case code = "statusCode"
   }
 }
+
