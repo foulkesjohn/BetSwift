@@ -160,7 +160,6 @@ extension MarketBook {
     if let runnerChanges = marketChange.rc {
       for runnerChange in runnerChanges {
         let runner = marketChange.marketDefinition?.runners?.first { $0.id == runnerChange.id }
-        let isActive = runner?.status == .active
         if var runnerBook = self[runnerChange.id] {
           if let ltp = runnerChange.ltp {
             runnerBook.lastPriceTraded = ltp
@@ -174,9 +173,13 @@ extension MarketBook {
           if let totalMatched = runnerChange.tv {
             runnerBook.totalMatched = totalMatched
           }
-          runnerBook.isActive = isActive
+          if let runner = runner {
+            let isActive = runner.status == .active
+            runnerBook.isActive = isActive
+          }
           self[runnerChange.id] = runnerBook
         } else {
+          let isActive = runner?.status == .active
           let runnerBook = RunnerBook(id: runnerChange.id,
                                       lastPriceTraded: runnerChange.ltp ?? 0,
                                       totalMatched: runnerChange.tv ?? 0,
