@@ -5,15 +5,15 @@ public struct CurrentOrderSummaryReport: Codable {
     public let betId: String
     public let marketId: String
     public let selectionId: Int
-    public let handicap: Float?
+    public let handicap: Float
     public let priceSize: PriceSize
     public let bspLiability: Float
     public let side: Side
     public let status: OrderStatus
     public let persistenceType: PersistenceType
     public let orderType: OrderType
-    public let placeDate: Date
-    public let matchedDate: Date
+    public let placedDate: Date
+    public let matchedDate: Date?
     public let averagePriceMatched: Float?
     public let sizeMatched: Float?
     public let sizeRemaining: Float?

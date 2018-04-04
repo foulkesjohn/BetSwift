@@ -3,10 +3,41 @@ import NIO
 
 public protocol ResourceType {
   associatedtype ReturnType: Codable
+  static var method: String { get }
 }
 
-public struct PlaceInstruction: Codable, EndpointType, ResourceType {
+public struct PlaceOrders: Codable, EndpointType, ResourceType {
   public typealias ReturnType = PlaceExecutionReport
+  
+  public var url: URL {
+    return Endpoint.Betting.placeOrders.url
+  }
+  
+  public static let method = "SportsAPING/v1.0/placeOrders"
+
+  public let marketId: String
+  public let instructions: [PlaceInstruction]
+  public let customerRef: String?
+  public let marketVersion: String?
+  public let customerStrategyRef: String?
+  public let async: Bool?
+  
+  public init(marketId: String,
+              instructions: [PlaceInstruction],
+              customerRef: String? = nil,
+              marketVersion: String? = nil,
+              customerStrategyRef: String? = nil,
+              async: Bool? = nil) {
+    self.marketId = marketId
+    self.instructions = instructions
+    self.customerRef = customerRef
+    self.marketVersion = marketVersion
+    self.customerStrategyRef = customerStrategyRef
+    self.async = async
+  }
+}
+
+public struct PlaceInstruction: Codable  {
   public struct LimitOrder: Codable {
     public enum TimeInForce: String, Codable {
       case fillOrKill = "FILL_OR_KILL"
@@ -31,9 +62,7 @@ public struct PlaceInstruction: Codable, EndpointType, ResourceType {
   public let side: Side
   public let limitOrder: LimitOrder?
   public let customerOrderRef: String?
-  public var url: URL {
-    return Endpoint.Betting.placeOrders.url
-  }
+  
   public init(orderType: OrderType,
               selectionId: Int,
               handicap: Float? = nil,

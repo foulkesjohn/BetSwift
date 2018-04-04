@@ -2,6 +2,16 @@ import Foundation
 
 public let BASEURL = URL(string: "https://api.betfair.com/exchange/")!
 
+public let decoder: JSONDecoder = {
+  let decoder = JSONDecoder()
+  if #available(OSX 10.13, *) {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+    decoder.dateDecodingStrategy = .formatted(formatter)
+  }
+  return decoder
+}()
+
 public enum HttpMethod {
   case get
   case post(Data)
@@ -31,7 +41,7 @@ public enum Endpoint {
     case placeOrders
     case listCurrentOrders
     case cancelOrders
-    private static let url = BASEURL.appendingPathComponent("betting/rest/v1.0/")
+    private static let url = BASEURL.appendingPathComponent("betting/json-rpc/v1/")
     public var url: URL {
       switch self {
       case .placeOrders:
@@ -49,6 +59,6 @@ public extension Resource where A: Decodable {
   init(url: URL, method: HttpMethod = .get) {
     self.url = url
     self.method = method
-    self.parse = { try? JSONDecoder().decode(A.self, from: $0) }
+    self.parse = { try? decoder.decode(A.self, from: $0) }
   }
 }
