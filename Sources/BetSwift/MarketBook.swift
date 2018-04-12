@@ -89,7 +89,8 @@ public struct MarketBook {
       .filter { $0.value.isActive }
       .reduce(0) {
         acc, val in
-        guard let price = val.value.bestAvailableToBack.one?.price else { return acc }
+        guard let price = val.value.bestAvailableToBack.one?.price,
+              price != 0 else { return acc }
         return acc + (1 / price)
     }
   }
@@ -99,7 +100,8 @@ public struct MarketBook {
       .filter { $0.value.isActive }
       .reduce(0) {
         acc, val in
-        guard let price = val.value.bestAvailableToLay.one?.price else { return acc }
+        guard let price = val.value.bestAvailableToLay.one?.price,
+              price != 0 else { return acc }
         return acc + (1 / price)
     }
   }
