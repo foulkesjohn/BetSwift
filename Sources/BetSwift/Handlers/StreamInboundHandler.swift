@@ -20,9 +20,5 @@ public class StreamInboundHandler: ChannelInboundHandler {
       }
     }
   }
-  
-  public func errorCaught(ctx: ChannelHandlerContext, error: Error) {
-    ctx.close(promise: nil)
-  }
 }
 
