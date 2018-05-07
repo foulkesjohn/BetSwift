@@ -48,6 +48,8 @@ public struct MarketChange: Decodable {
     public let ltp: Float?
     public let batb: RunnerChangeTriple?
     public let batl: RunnerChangeTriple?
+    public let atl: RunnerChangeTuple?
+    public let atb: RunnerChangeTuple?
     public let tv: Float?
   }
 }

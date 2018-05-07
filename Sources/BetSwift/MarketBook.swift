@@ -4,16 +4,16 @@ public struct RunnerBook {
   let id: Int
   public var lastPriceTraded: Float
   public var totalMatched: Float
-  public var availableToBack: RunnerChangeTriple
-  public var availableToLay: RunnerChangeTriple
+  public var availableToBack: RunnerChangeTuple
+  public var availableToLay: RunnerChangeTuple
   public var bestAvailableToBack: RunnerChangeTriple
   public var bestAvailableToLay: RunnerChangeTriple
   public var isActive: Bool
   public init(id: Int,
               lastPriceTraded: Float = 0,
               totalMatched: Float = 0,
-              availableToBack: RunnerChangeTriple = [],
-              availableToLay: RunnerChangeTriple = [],
+              availableToBack: RunnerChangeTuple = [],
+              availableToLay: RunnerChangeTuple = [],
               bestAvailableToBack: RunnerChangeTriple = [],
               bestAvailableToLay: RunnerChangeTriple = [],
               isActive: Bool = true) {
@@ -172,6 +172,12 @@ extension MarketBook {
           if let bestAvailableToLay = runnerChange.batl {
             runnerBook.bestAvailableToLay.apply(changes: bestAvailableToLay)
           }
+          if let availableToBack = runnerChange.atb {
+            runnerBook.availableToBack.apply(priceChanges: availableToBack)
+          }
+          if let availableToLay = runnerChange.atl {
+            runnerBook.availableToLay.apply(priceChanges: availableToLay)
+          }
           if let totalMatched = runnerChange.tv {
             runnerBook.totalMatched = totalMatched
           }
@@ -185,8 +191,8 @@ extension MarketBook {
           let runnerBook = RunnerBook(id: runnerChange.id,
                                       lastPriceTraded: runnerChange.ltp ?? 0,
                                       totalMatched: runnerChange.tv ?? 0,
-                                      availableToBack: [],
-                                      availableToLay: [],
+                                      availableToBack:runnerChange.atb ?? [],
+                                      availableToLay: runnerChange.atl ?? [],
                                       bestAvailableToBack: runnerChange.batb ?? [],
                                       bestAvailableToLay: runnerChange.batl ?? [],
                                       isActive: isActive)
