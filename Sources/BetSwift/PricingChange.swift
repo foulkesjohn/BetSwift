@@ -6,7 +6,7 @@ public typealias RunnerChangeTuple = [RunnerChangeDelta]
 public typealias RunnerChangeTriple = [RunnerChangeDelta]
 
 extension Array where Element == DeltaChangeValue {
-  var level: DeltaChangeValue? {
+  public var level: DeltaChangeValue? {
     return self.count > 0 ? self[0] : nil
   }
   
