@@ -41,12 +41,8 @@ func ==(lhs: RunnerChangeTriple, rhs: RunnerChangeTriple) -> Bool {
 extension Array where Element == [DeltaChangeValue] {
   
   mutating func apply(changes: RunnerChangeTriple) {
-    var updated = false
     for change in changes {
-      if count == 0 {
-        append(change)
-        break
-      }
+      var updated = false
       for (count, trade) in enumerated() {
         if trade.level == change.level {
           if change.size == 0 {
@@ -67,12 +63,8 @@ extension Array where Element == [DeltaChangeValue] {
   }
   
   mutating func apply(priceChanges: RunnerChangeTuple) {
-    var updated = false
     for change in priceChanges {
-      if count == 0 {
-        append(change)
-        break
-      }
+      var updated = false
       for (count, trade) in enumerated() {
         if trade.level == change.level {
           if change.price == 0 {

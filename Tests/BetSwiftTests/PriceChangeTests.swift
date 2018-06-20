@@ -8,7 +8,7 @@ class PriceChangeTest: XCTestCase {
   static var allTests = [
     ("testApplyChangesNewChange", testApplyChangesNewChange),
     ("testApplyChangesNewReplce", testApplyChangesNewReplce),
-    ("testApplyChangesNewReplce1", testApplyChangesNewReplce1),
+    ("testApplyChangesNewReplce1", testApplyChangesNewReplace1),
     ("testApplyChangesNewRemove", testApplyChangesNewRemove)
   ]
   
@@ -30,7 +30,7 @@ class PriceChangeTest: XCTestCase {
     XCTAssertTrue(current == expected)
   }
   
-  func testApplyChangesNewReplce1() throws {
+  func testApplyChangesNewReplace1() throws {
     let book_update: RunnerChangeTriple = [[2, 0, 0], [1, 1.01, 9835.74], [0, 1.02, 1126.22]]
     var current: RunnerChangeTriple = [[1, 1.01, 9835.74], [0, 1.02, 1126.22]]
     let expected: RunnerChangeTriple = [[1, 1.01, 9835.74], [0, 1.02, 1126.22]]

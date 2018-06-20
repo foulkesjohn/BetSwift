@@ -38,17 +38,22 @@ public struct MarketCache {
     self.cache = cache
   }
   
-  public mutating func insert(change: MarketChange, publishTime: Date) {
+  @discardableResult public mutating func insert(change: MarketChange, publishTime: Date) -> MarketBook? {
     if change.img || cache[change.id] == nil {
       if let definition = change.marketDefinition,
-        let marketBook = MarketBook(definition: definition) {
+        var marketBook = MarketBook(definition: definition) {
+        marketBook.insert(change,
+                          publishTime: publishTime)
         cache[change.id] = marketBook
+        return marketBook
       }
     } else if var marketBook = cache[change.id] {
       marketBook.insert(change,
                         publishTime: publishTime)
       cache[change.id] = marketBook
+      return marketBook
     }
+    return nil
   }
 }
 
