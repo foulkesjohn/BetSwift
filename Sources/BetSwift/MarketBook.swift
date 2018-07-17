@@ -38,22 +38,21 @@ public struct MarketCache {
     self.cache = cache
   }
   
-  @discardableResult public mutating func insert(change: MarketChange, publishTime: Date) -> MarketBook? {
+  public mutating func insert(change: MarketChange, publishTime: Date) {
+    var marketBook: MarketBook?
     if change.img || cache[change.id] == nil {
-      if let definition = change.marketDefinition,
-        var marketBook = MarketBook(definition: definition) {
-        marketBook.insert(change,
-                          publishTime: publishTime)
-        cache[change.id] = marketBook
-        return marketBook
+      if let definition = change.marketDefinition {
+        marketBook = MarketBook(id: change.id,
+                                definition: definition)
       }
-    } else if var marketBook = cache[change.id] {
+    } else if let book = cache[change.id] {
+      marketBook = book
+    }
+    if var marketBook = marketBook {
       marketBook.insert(change,
                         publishTime: publishTime)
       cache[change.id] = marketBook
-      return marketBook
     }
-    return nil
   }
 }
 
@@ -73,6 +72,13 @@ extension MarketCache: Collection {
   }
 }
 
+extension MarketCache {
+  public subscript(id: String) -> MarketBook? {
+    get { return cache[id] }
+    set { cache[id] = newValue }
+  }
+}
+
 public struct MarketBook {
   public typealias DictionaryType = [Int: RunnerBook]
   
@@ -80,6 +86,7 @@ public struct MarketBook {
   fileprivate(set) var definition: MarketChange.MarketDefinition
   public private(set) var totalMatched: Float?
   public private(set) var publishTime: Date?
+  public let id: String
   
   public var inPlay: Bool {
     return definition.inPlay
@@ -95,7 +102,7 @@ public struct MarketBook {
       .reduce(0) {
         acc, val in
         guard let price = val.value.bestAvailableToBack.one?.price,
-              price != 0 else { return acc }
+          price != 0 else { return acc }
         return acc + (1 / price)
     }
   }
@@ -106,13 +113,14 @@ public struct MarketBook {
       .reduce(0) {
         acc, val in
         guard let price = val.value.bestAvailableToLay.one?.price,
-              price != 0 else { return acc }
+          price != 0 else { return acc }
         return acc + (1 / price)
     }
   }
   
-  public init?(definition: MarketChange.MarketDefinition) {
-    guard let runners = definition.runners else { return nil }
+  public init(id: String, definition: MarketChange.MarketDefinition) {
+    self.id = id
+    let runners = definition.runners ?? []
     
     self.definition = definition
     self.runners = runners.reduce(DictionaryType()) {
