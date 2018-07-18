@@ -16,6 +16,7 @@ public struct ChangeMessage<Change: Decodable>: Decodable, ChangeType {
   public let clk: String
   public let mc: [Change]?
   public let pt: Date
+  public let identifier = UUID().uuidString
 }
 
 public struct MarketChange: Decodable {
@@ -24,6 +25,7 @@ public struct MarketChange: Decodable {
   public let marketDefinition: MarketDefinition?
   public let rc: [RunnerChange]?
   public let tv: Float?
+  public let identifier = UUID().uuidString
   
   public struct MarketDefinition: Decodable {
     public struct Runner: Decodable {

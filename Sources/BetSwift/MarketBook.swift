@@ -86,6 +86,7 @@ public struct MarketBook {
   fileprivate(set) var definition: MarketChange.MarketDefinition
   public private(set) var totalMatched: Float?
   public private(set) var publishTime: Date?
+  public private(set) var changeId: String?
   public let id: String
   
   public var inPlay: Bool {
@@ -160,6 +161,7 @@ extension MarketBook {
   public mutating func insert(_ marketChange: MarketChange,
                               publishTime: Date) {
     self.publishTime = publishTime
+    self.changeId = marketChange.identifier
     totalMatched = marketChange.tv
     if let definition = marketChange.marketDefinition {
       self.definition = definition
