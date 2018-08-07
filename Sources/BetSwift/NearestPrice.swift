@@ -32,7 +32,7 @@ public func nearestPrice(price: Float, cutoffs: [CutOffPair]) -> Float {
       break
     }
   }
-  return (price * step).rounded(toPlaces: 2)
+  return roundf(price * step) / step
 }
 
 public extension Float {
