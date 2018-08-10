@@ -43,7 +43,7 @@ public struct PlaceExecutionReport: Codable, EndpointType {
     public let betId: String?
     public let placedDate: Date?
     public let averagePriceMatched: Double?
-    public let sizeMatched: Float?
+    public let sizeMatched: Double?
   }
   public let customerRef: String?
   public let status: ExecutionReportStatus
