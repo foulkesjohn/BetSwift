@@ -2,16 +2,16 @@ import Foundation
 
 public struct RunnerBook {
   let id: Int
-  public var lastPriceTraded: Float
-  public var totalMatched: Float
+  public var lastPriceTraded: Double
+  public var totalMatched: Double
   public var availableToBack: RunnerChangeTuple
   public var availableToLay: RunnerChangeTuple
   public var bestAvailableToBack: RunnerChangeTriple
   public var bestAvailableToLay: RunnerChangeTriple
   public var isActive: Bool
   public init(id: Int,
-              lastPriceTraded: Float = 0,
-              totalMatched: Float = 0,
+              lastPriceTraded: Double = 0,
+              totalMatched: Double = 0,
               availableToBack: RunnerChangeTuple = [],
               availableToLay: RunnerChangeTuple = [],
               bestAvailableToBack: RunnerChangeTriple = [],
@@ -84,7 +84,7 @@ public struct MarketBook {
   
   fileprivate var runners = DictionaryType()
   fileprivate(set) var definition: MarketChange.MarketDefinition
-  public private(set) var totalMatched: Float?
+  public private(set) var totalMatched: Double?
   public private(set) var publishTime: Date?
   public private(set) var changeId: String?
   public let id: String
@@ -97,7 +97,7 @@ public struct MarketBook {
     return definition.status
   }
   
-  public var overround: Float {
+  public var overround: Double {
     return runners
       .filter { $0.value.isActive }
       .reduce(0) {
@@ -108,7 +108,7 @@ public struct MarketBook {
     }
   }
   
-  public var underround: Float {
+  public var underround: Double {
     return runners
       .filter { $0.value.isActive }
       .reduce(0) {

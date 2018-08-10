@@ -1,6 +1,6 @@
 import Foundation
 
-public typealias DeltaChangeValue = Float
+public typealias DeltaChangeValue = Double
 public typealias RunnerChangeDelta = [DeltaChangeValue]
 public typealias RunnerChangeTuple = [RunnerChangeDelta]
 public typealias RunnerChangeTriple = [RunnerChangeDelta]

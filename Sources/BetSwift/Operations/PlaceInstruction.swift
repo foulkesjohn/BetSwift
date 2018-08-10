@@ -42,12 +42,12 @@ public struct PlaceInstruction: Codable  {
     public enum TimeInForce: String, Codable {
       case fillOrKill = "FILL_OR_KILL"
     }
-    public let size: Float
-    public let price: Float
+    public let size: Double
+    public let price: Double
     public let persistenceType: PersistenceType
     public let timeInForce: TimeInForce?
-    public init(size: Float,
-                price: Float,
+    public init(size: Double,
+                price: Double,
                 persistenceType: PersistenceType,
                 timeInForce: TimeInForce? = nil) {
       self.size = size
@@ -58,14 +58,14 @@ public struct PlaceInstruction: Codable  {
   }
   public let orderType: OrderType
   public let selectionId: Int
-  public let handicap: Float?
+  public let handicap: Double?
   public let side: Side
   public let limitOrder: LimitOrder?
   public let customerOrderRef: String?
   
   public init(orderType: OrderType,
               selectionId: Int,
-              handicap: Float? = nil,
+              handicap: Double? = nil,
               side: Side,
               limitOrder: LimitOrder? = nil,
               customerOrderRef: String? = nil) {

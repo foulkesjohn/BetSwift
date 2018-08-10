@@ -1,6 +1,6 @@
 import Foundation
 
-public typealias CutOffPair = (cutoff: Float, step: Float)
+public typealias CutOffPair = (cutoff: Double, step: Double)
 
 public let CUTOFFS: [CutOffPair] = [
   (2, 100),
@@ -15,29 +15,29 @@ public let CUTOFFS: [CutOffPair] = [
   (1000, 0.1),
 ]
 
-public let MIN_PRICE: Float = 1.01
-public let MAX_PRICE: Float = 1000
+public let MIN_PRICE: Double = 1.01
+public let MAX_PRICE: Double = 1000
 
-public func nearestPrice(price: Float, cutoffs: [CutOffPair]) -> Float {
+public func nearestPrice(price: Double, cutoffs: [CutOffPair]) -> Double {
   if price <= MIN_PRICE {
     return MIN_PRICE
   }
   if price > MAX_PRICE {
     return MAX_PRICE
   }
-  var step: Float = 100
+  var step: Double = 100
   for pair in cutoffs {
     step = pair.step
     if price < pair.cutoff {
       break
     }
   }
-  return roundf(price * step) / step
+  return round((price * step)) / step
 }
 
-public extension Float {
-  func rounded(toPlaces places: Int) -> Float {
-    let divisor = pow(10.0, Float(places))
+public extension Double {
+  func rounded(toPlaces places: Int) -> Double {
+    let divisor = pow(10.0, Double(places))
     return (self * divisor).rounded() / divisor
   }
 }

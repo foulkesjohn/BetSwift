@@ -13,8 +13,8 @@ public struct CancelOrders: Codable,
   
   public struct CancelInstruction: Codable {
     public let betId: String
-    public let sizeReduction: Float?
-    public init(betId: String, sizeReduction: Float? = nil) {
+    public let sizeReduction: Double?
+    public init(betId: String, sizeReduction: Double? = nil) {
       self.betId = betId
       self.sizeReduction = sizeReduction
     }

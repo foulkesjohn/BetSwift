@@ -11,7 +11,7 @@ public struct CancelExecutionReport: Codable {
     public let status: String
     public let errorCode: String?
     public let instruction: CancelOrders.CancelInstruction?
-    public let sizeCancelled: Float
+    public let sizeCancelled: Double
     public let cancelledDate: Date?
   }
   public let customerRef: String?

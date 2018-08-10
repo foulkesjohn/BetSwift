@@ -24,7 +24,7 @@ public struct MarketChange: Decodable {
   public let id: String
   public let marketDefinition: MarketDefinition?
   public let rc: [RunnerChange]?
-  public let tv: Float?
+  public let tv: Double?
   public let identifier = UUID().uuidString
   
   public struct MarketDefinition: Decodable {
@@ -47,12 +47,12 @@ public struct MarketChange: Decodable {
   }
   public struct RunnerChange: Decodable {
     public let id: Int
-    public let ltp: Float?
+    public let ltp: Double?
     public let batb: RunnerChangeTriple?
     public let batl: RunnerChangeTriple?
     public let atl: RunnerChangeTuple?
     public let atb: RunnerChangeTuple?
-    public let tv: Float?
+    public let tv: Double?
   }
 }
 

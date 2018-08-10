@@ -31,7 +31,7 @@ public final class Webservice {
   public init(session: URLSession = .shared,
               sessionToken: String,
               appKey: String,
-              group: MultiThreadedEventLoopGroup = MultiThreadedEventLoopGroup(numThreads: 1)) {
+              group: MultiThreadedEventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)) {
     self.session = session
     self.sessionToken = sessionToken
     self.appKey = appKey
