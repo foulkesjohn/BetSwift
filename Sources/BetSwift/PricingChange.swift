@@ -1,11 +1,12 @@
 import Foundation
 
-public typealias DeltaChangeValue = Float
+public typealias DeltaChangeValue = Double
 public typealias RunnerChangeDelta = [DeltaChangeValue]
+public typealias RunnerChangeTuple = [RunnerChangeDelta]
 public typealias RunnerChangeTriple = [RunnerChangeDelta]
 
 extension Array where Element == DeltaChangeValue {
-  var level: DeltaChangeValue? {
+  public var level: DeltaChangeValue? {
     return self.count > 0 ? self[0] : nil
   }
   
@@ -40,12 +41,8 @@ func ==(lhs: RunnerChangeTriple, rhs: RunnerChangeTriple) -> Bool {
 extension Array where Element == [DeltaChangeValue] {
   
   mutating func apply(changes: RunnerChangeTriple) {
-    var updated = false
     for change in changes {
-      if count == 0 {
-        append(change)
-        break
-      }
+      var updated = false
       for (count, trade) in enumerated() {
         if trade.level == change.level {
           if change.size == 0 {
@@ -60,6 +57,28 @@ extension Array where Element == [DeltaChangeValue] {
         }
       }
       if !updated && change.size != 0 {
+        append(change)
+      }
+    }
+  }
+  
+  mutating func apply(priceChanges: RunnerChangeTuple) {
+    for change in priceChanges {
+      var updated = false
+      for (count, trade) in enumerated() {
+        if trade.level == change.level {
+          if change.price == 0 {
+            remove(at: count)
+            updated = true
+            break
+          } else {
+            self[count] = change
+            updated = true
+            break
+          }
+        }
+      }
+      if !updated && change.price != 0 {
         append(change)
       }
     }

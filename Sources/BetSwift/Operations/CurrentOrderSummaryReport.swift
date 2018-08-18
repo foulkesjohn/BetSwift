@@ -5,21 +5,21 @@ public struct CurrentOrderSummaryReport: Codable {
     public let betId: String
     public let marketId: String
     public let selectionId: Int
-    public let handicap: Float?
+    public let handicap: Double
     public let priceSize: PriceSize
-    public let bspLiability: Float
+    public let bspLiability: Double
     public let side: Side
     public let status: OrderStatus
     public let persistenceType: PersistenceType
     public let orderType: OrderType
-    public let placeDate: Date
-    public let matchedDate: Date
-    public let averagePriceMatched: Float?
-    public let sizeMatched: Float?
-    public let sizeRemaining: Float?
-    public let sizeLapsed: Float?
-    public let sizeCancelled: Float?
-    public let sizeVoided: Float?
+    public let placedDate: Date
+    public let matchedDate: Date?
+    public let averagePriceMatched: Double?
+    public let sizeMatched: Double?
+    public let sizeRemaining: Double?
+    public let sizeLapsed: Double?
+    public let sizeCancelled: Double?
+    public let sizeVoided: Double?
     public let customerOrderRef: String?
     public let customerStrategyRef: String?
   }
@@ -28,6 +28,6 @@ public struct CurrentOrderSummaryReport: Codable {
 }
 
 public struct PriceSize: Codable {
-  public let price: Float
-  public let size: Float
+  public let price: Double
+  public let size: Double
 }

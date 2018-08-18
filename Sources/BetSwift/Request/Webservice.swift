@@ -1,9 +1,24 @@
 import Foundation
 import NIO
 
+struct BetfairError: Codable {
+  let faultcode: String?
+  let faultstring: String?
+  let jsonrpc: String?
+  let code: Int?
+  let error: Error?
+  let message: String?
+  let detail: [String: String]?
+  struct Error: Codable {
+    let code: Int
+    let message: String
+  }
+}
+
 public final class Webservice {
   enum Error: Swift.Error {
     case unknown
+    case betfair(BetfairError)
   }
   
   private let session: URLSession
@@ -16,7 +31,7 @@ public final class Webservice {
   public init(session: URLSession = .shared,
               sessionToken: String,
               appKey: String,
-              group: MultiThreadedEventLoopGroup = MultiThreadedEventLoopGroup(numThreads: 1)) {
+              group: MultiThreadedEventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)) {
     self.session = session
     self.sessionToken = sessionToken
     self.appKey = appKey
@@ -33,13 +48,18 @@ public final class Webservice {
       request.httpBody = data
     }
     self.session.dataTask(with: request) {
-      data, _, error in
+      data, response, error in
       guard let result = data.flatMap(resource.parse) else {
-        promise.fail(error: error ?? Error.unknown)
+        if let data = data,
+          let error = try? decoder.decode(BetfairError.self, from: data) {
+          promise.fail(error: Error.betfair(error))
+        } else {
+          promise.fail(error: Error.unknown)
+        }
         return
       }
       promise.succeed(result: result)
-    }.resume()
+      }.resume()
     return promise.futureResult
   }
   

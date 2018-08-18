@@ -2,18 +2,18 @@ import Foundation
 
 public struct RunnerBook {
   let id: Int
-  public var lastPriceTraded: Float
-  public var totalMatched: Float
-  public var availableToBack: RunnerChangeTriple
-  public var availableToLay: RunnerChangeTriple
+  public var lastPriceTraded: Double
+  public var totalMatched: Double
+  public var availableToBack: RunnerChangeTuple
+  public var availableToLay: RunnerChangeTuple
   public var bestAvailableToBack: RunnerChangeTriple
   public var bestAvailableToLay: RunnerChangeTriple
   public var isActive: Bool
   public init(id: Int,
-              lastPriceTraded: Float = 0,
-              totalMatched: Float = 0,
-              availableToBack: RunnerChangeTriple = [],
-              availableToLay: RunnerChangeTriple = [],
+              lastPriceTraded: Double = 0,
+              totalMatched: Double = 0,
+              availableToBack: RunnerChangeTuple = [],
+              availableToLay: RunnerChangeTuple = [],
               bestAvailableToBack: RunnerChangeTriple = [],
               bestAvailableToLay: RunnerChangeTriple = [],
               isActive: Bool = true) {
@@ -39,12 +39,16 @@ public struct MarketCache {
   }
   
   public mutating func insert(change: MarketChange, publishTime: Date) {
+    var marketBook: MarketBook?
     if change.img || cache[change.id] == nil {
-      if let definition = change.marketDefinition,
-        let marketBook = MarketBook(definition: definition) {
-        cache[change.id] = marketBook
+      if let definition = change.marketDefinition {
+        marketBook = MarketBook(id: change.id,
+                                definition: definition)
       }
-    } else if var marketBook = cache[change.id] {
+    } else if let book = cache[change.id] {
+      marketBook = book
+    }
+    if var marketBook = marketBook {
       marketBook.insert(change,
                         publishTime: publishTime)
       cache[change.id] = marketBook
@@ -68,13 +72,22 @@ extension MarketCache: Collection {
   }
 }
 
+extension MarketCache {
+  public subscript(id: String) -> MarketBook? {
+    get { return cache[id] }
+    set { cache[id] = newValue }
+  }
+}
+
 public struct MarketBook {
   public typealias DictionaryType = [Int: RunnerBook]
   
   fileprivate var runners = DictionaryType()
   fileprivate(set) var definition: MarketChange.MarketDefinition
-  public private(set) var totalMatched: Float?
+  public private(set) var totalMatched: Double?
   public private(set) var publishTime: Date?
+  public private(set) var changeId: String?
+  public let id: String
   
   public var inPlay: Bool {
     return definition.inPlay
@@ -84,28 +97,31 @@ public struct MarketBook {
     return definition.status
   }
   
-  public var overround: Float {
+  public var overround: Double {
     return runners
       .filter { $0.value.isActive }
       .reduce(0) {
         acc, val in
-        guard let price = val.value.bestAvailableToBack.one?.price else { return acc }
+        guard let price = val.value.bestAvailableToBack.one?.price,
+          price != 0 else { return acc }
         return acc + (1 / price)
     }
   }
   
-  public var underround: Float {
+  public var underround: Double {
     return runners
       .filter { $0.value.isActive }
       .reduce(0) {
         acc, val in
-        guard let price = val.value.bestAvailableToLay.one?.price else { return acc }
+        guard let price = val.value.bestAvailableToLay.one?.price,
+          price != 0 else { return acc }
         return acc + (1 / price)
     }
   }
   
-  public init?(definition: MarketChange.MarketDefinition) {
-    guard let runners = definition.runners else { return nil }
+  public init(id: String, definition: MarketChange.MarketDefinition) {
+    self.id = id
+    let runners = definition.runners ?? []
     
     self.definition = definition
     self.runners = runners.reduce(DictionaryType()) {
@@ -145,6 +161,7 @@ extension MarketBook {
   public mutating func insert(_ marketChange: MarketChange,
                               publishTime: Date) {
     self.publishTime = publishTime
+    self.changeId = marketChange.identifier
     totalMatched = marketChange.tv
     if let definition = marketChange.marketDefinition {
       self.definition = definition
@@ -170,6 +187,12 @@ extension MarketBook {
           if let bestAvailableToLay = runnerChange.batl {
             runnerBook.bestAvailableToLay.apply(changes: bestAvailableToLay)
           }
+          if let availableToBack = runnerChange.atb {
+            runnerBook.availableToBack.apply(priceChanges: availableToBack)
+          }
+          if let availableToLay = runnerChange.atl {
+            runnerBook.availableToLay.apply(priceChanges: availableToLay)
+          }
           if let totalMatched = runnerChange.tv {
             runnerBook.totalMatched = totalMatched
           }
@@ -183,8 +206,8 @@ extension MarketBook {
           let runnerBook = RunnerBook(id: runnerChange.id,
                                       lastPriceTraded: runnerChange.ltp ?? 0,
                                       totalMatched: runnerChange.tv ?? 0,
-                                      availableToBack: [],
-                                      availableToLay: [],
+                                      availableToBack:runnerChange.atb ?? [],
+                                      availableToLay: runnerChange.atl ?? [],
                                       bestAvailableToBack: runnerChange.batb ?? [],
                                       bestAvailableToLay: runnerChange.batl ?? [],
                                       isActive: isActive)
