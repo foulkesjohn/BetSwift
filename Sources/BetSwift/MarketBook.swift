@@ -183,15 +183,19 @@ extension MarketBook {
           }
           if let bestAvailableToBack = runnerChange.batb {
             runnerBook.bestAvailableToBack.apply(changes: bestAvailableToBack)
+            runnerBook.bestAvailableToBack.reverse()
           }
           if let bestAvailableToLay = runnerChange.batl {
             runnerBook.bestAvailableToLay.apply(changes: bestAvailableToLay)
+            runnerBook.bestAvailableToLay.reverse()
           }
           if let availableToBack = runnerChange.atb {
             runnerBook.availableToBack.apply(priceChanges: availableToBack)
+            runnerBook.availableToBack.reverse()
           }
           if let availableToLay = runnerChange.atl {
             runnerBook.availableToLay.apply(priceChanges: availableToLay)
+            runnerBook.availableToLay.reverse()
           }
           if let totalMatched = runnerChange.tv {
             runnerBook.totalMatched = totalMatched
