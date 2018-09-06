@@ -39,6 +39,12 @@ func ==(lhs: RunnerChangeTriple, rhs: RunnerChangeTriple) -> Bool {
 }
 
 extension Array where Element == [DeltaChangeValue] {
+  public static func < (lhs: [DeltaChangeValue], rhs: [DeltaChangeValue]) -> Bool {
+    return (lhs.level ?? 0) < (rhs.level ?? 0)
+  }
+}
+
+extension Array where Element == [DeltaChangeValue] {
   
   mutating func apply(changes: RunnerChangeTriple) {
     for change in changes {
@@ -60,7 +66,7 @@ extension Array where Element == [DeltaChangeValue] {
         append(change)
       }
     }
-    reverse()
+    sort(by: <)
   }
   
   mutating func apply(priceChanges: RunnerChangeTuple) {
@@ -83,7 +89,7 @@ extension Array where Element == [DeltaChangeValue] {
         append(change)
       }
     }
-    reverse()
+    sort(by: <)
   }
   
 }
