@@ -60,6 +60,7 @@ extension Array where Element == [DeltaChangeValue] {
         append(change)
       }
     }
+    reverse()
   }
   
   mutating func apply(priceChanges: RunnerChangeTuple) {
@@ -82,6 +83,7 @@ extension Array where Element == [DeltaChangeValue] {
         append(change)
       }
     }
+    reverse()
   }
   
 }
