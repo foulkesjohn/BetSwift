@@ -22,9 +22,13 @@ public struct RunnerBook {
     self.lastPriceTraded = lastPriceTraded
     self.totalMatched = totalMatched
     self.availableToBack = availableToBack
+    self.availableToBack.sort(by :<)
     self.availableToLay = availableToLay
+    self.availableToLay.sort(by :<)
     self.bestAvailableToBack = bestAvailableToBack
+    self.bestAvailableToBack.sort(by :<)
     self.bestAvailableToLay = bestAvailableToLay
+    self.bestAvailableToLay.sort(by :<)
     self.isActive = isActive
   }
 }

@@ -44,6 +44,13 @@ public struct MarketChange: Decodable {
     public let runners: [Runner]?
     public let inPlay: Bool
     public let status: String
+    public init(runners: [Runner] = [],
+                inPlay: Bool = true,
+                status: String = Runner.Status.active.rawValue) {
+      self.runners = runners
+      self.inPlay = inPlay
+      self.status = status
+    }
   }
   public struct RunnerChange: Decodable {
     public let id: Int
