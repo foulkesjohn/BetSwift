@@ -9,7 +9,7 @@ public struct Connection: Codable {
 
 public protocol ChangeType {}
 
-public struct ChangeMessage<Change: Decodable>: Decodable, ChangeType {
+public struct ChangeMessage<Change: Codable>: Codable, ChangeType {
   public let id: Int
   public let ct: String?
   public let initialClk: String?
@@ -17,9 +17,22 @@ public struct ChangeMessage<Change: Decodable>: Decodable, ChangeType {
   public let mc: [Change]?
   public let pt: Date
   public let identifier = UUID().uuidString
+  public init(id: Int,
+              ct: String? = nil,
+              initialClk: String? = nil,
+              clk: String,
+              mc: [Change]? = nil,
+              pt: Date = Date()) {
+    self.id = id
+    self.ct = ct
+    self.initialClk = initialClk
+    self.clk = clk
+    self.mc = mc
+    self.pt = pt
+  }
 }
 
-public struct MarketChange: Decodable {
+public struct MarketChange: Codable {
   public let img: Bool = false
   public let id: String
   public let marketDefinition: MarketDefinition?
@@ -27,11 +40,11 @@ public struct MarketChange: Decodable {
   public let tv: Double?
   public let identifier = UUID().uuidString
   
-  public struct MarketDefinition: Decodable {
-    public struct Runner: Decodable {
+  public struct MarketDefinition: Codable {
+    public struct Runner: Codable {
       public let id: Int
       public let status: Status
-      public enum Status: String, Decodable {
+      public enum Status: String, Codable {
         case active = "ACTIVE"
         case winner = "WINNER"
         case loser = "LOSER"
@@ -44,15 +57,18 @@ public struct MarketChange: Decodable {
     public let runners: [Runner]?
     public let inPlay: Bool
     public let status: String
+    public let eventTypeId: String
     public init(runners: [Runner] = [],
                 inPlay: Bool = true,
-                status: String = Runner.Status.active.rawValue) {
+                status: String = Runner.Status.active.rawValue,
+                eventTypeId: String) {
       self.runners = runners
       self.inPlay = inPlay
       self.status = status
+      self.eventTypeId = eventTypeId
     }
   }
-  public struct RunnerChange: Decodable {
+  public struct RunnerChange: Codable {
     public let id: Int
     public let ltp: Double?
     public let batb: RunnerChangeTriple?
