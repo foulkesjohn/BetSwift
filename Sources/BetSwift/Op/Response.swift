@@ -13,7 +13,7 @@ public struct ChangeMessage<Change: Codable>: Codable, ChangeType {
   public let id: Int
   public let ct: String?
   public let initialClk: String?
-  public let clk: String
+  public let clk: String?
   public let mc: [Change]?
   public let pt: Date
   public let identifier = UUID().uuidString

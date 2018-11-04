@@ -58,13 +58,26 @@ public struct MarketSubscription: Codable {
   let id: Int
   let marketFilter: MarketFilter
   let marketDataFilter: MarketDataFilter
+  let initialClk: String?
+  let clk: String?
   let op = "marketSubscription"
   public init(id: Int,
               marketFilter: MarketFilter,
-              marketDataFilter: MarketDataFilter) {
+              marketDataFilter: MarketDataFilter,
+              initialClk: String? = nil,
+              clk: String? = nil) {
     self.id = id
     self.marketFilter = marketFilter
     self.marketDataFilter = marketDataFilter
+    self.initialClk = initialClk
+    self.clk = clk
+  }
+  public func with(initialClk: String?, clk: String?) -> MarketSubscription {
+    return MarketSubscription(id: id,
+                              marketFilter: marketFilter,
+                              marketDataFilter: marketDataFilter,
+                              initialClk: initialClk,
+                              clk: clk)
   }
 }
 
