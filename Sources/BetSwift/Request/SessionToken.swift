@@ -1,5 +1,6 @@
 import Foundation
 import KituraNet
+import TraceLog
 
 public struct SessionFetchParams {
   public let username: String
@@ -24,10 +25,10 @@ public struct SessionFetchParams {
 public class SessionToken {
   
   public class func fetch(params: SessionFetchParams,
-                   handler: @escaping (String?) -> Void) {
+                          handler: @escaping (String?) -> Void) {
     let options = [ClientRequest.Options.method("POST"),
                    ClientRequest.Options.schema("https://"),
-                   ClientRequest.Options.hostname("identitysso.betfair.com"),
+                   ClientRequest.Options.hostname("identitysso-cert.betfair.com"),
                    ClientRequest.Options.path("api/certlogin"),
                    ClientRequest.Options.headers(["X-Application": params.appKey,
                                                   "Content-Type": "application/x-www-form-urlencoded"]),
@@ -46,6 +47,7 @@ public class SessionToken {
           handler(token.sessionToken)
         }
       } else {
+        logTrace("BetSwift", level: 1) { "No data returned for session token" }
         handler(nil)
       }
     }
