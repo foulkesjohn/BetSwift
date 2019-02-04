@@ -27,7 +27,7 @@ public class SessionToken {
                    handler: @escaping (String?) -> Void) {
     let options = [ClientRequest.Options.method("POST"),
                    ClientRequest.Options.schema("https://"),
-                   ClientRequest.Options.hostname("identitysso.betfair.com"),
+                   ClientRequest.Options.hostname("identitysso-cert.betfair.com"),
                    ClientRequest.Options.path("api/certlogin"),
                    ClientRequest.Options.headers(["X-Application": params.appKey,
                                                   "Content-Type": "application/x-www-form-urlencoded"]),
