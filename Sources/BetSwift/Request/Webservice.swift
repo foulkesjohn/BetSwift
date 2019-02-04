@@ -1,5 +1,6 @@
 import Foundation
 import NIO
+import TraceLog
 
 struct BetfairError: Codable {
   let faultcode: String?
@@ -44,8 +45,15 @@ public final class Webservice {
     var request = URLRequest(url: resource.url)
     request.httpMethod = resource.method.method
     request.allHTTPHeaderFields = headers()
+    logTrace("BetSwift", level: 1) {
+      "Request: \(request)"
+    }
     if case let .post(data) = resource.method {
       request.httpBody = data
+      logTrace("BetSwift", level: 1) {
+        let body = String(data: data, encoding: .utf8) ?? ""
+        return "Request body: \(body)"
+      }
     }
     self.session.dataTask(with: request) {
       data, response, error in
