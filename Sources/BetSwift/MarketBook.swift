@@ -1,7 +1,18 @@
 import Foundation
 
-public struct RunnerBook {
-  let id: Int
+public protocol RunnerBookType {
+  var id: Int { get }
+  var lastPriceTraded: Double { get set }
+  var totalMatched: Double { get set }
+  var availableToBack: RunnerChangeTuple { get set }
+  var availableToLay: RunnerChangeTuple { get set }
+  var bestAvailableToBack: RunnerChangeTriple { get set }
+  var bestAvailableToLay: RunnerChangeTriple { get set }
+  var isActive: Bool { get set }
+}
+
+public struct RunnerBook: RunnerBookType {
+  public let id: Int
   public var lastPriceTraded: Double
   public var totalMatched: Double
   public var availableToBack: RunnerChangeTuple
@@ -83,8 +94,14 @@ extension MarketCache {
   }
 }
 
-public struct MarketBook {
-  public typealias DictionaryType = [Int: RunnerBook]
+public protocol MarketBookType {
+  var totalMatched: Double? { get }
+  var publishTime: Date? { get }
+  var changeId: String? { get }
+}
+
+public struct MarketBook: MarketBookType {
+  public typealias DictionaryType = [Int: RunnerBookType]
   
   fileprivate var runners = DictionaryType()
   fileprivate(set) var definition: MarketChange.MarketDefinition
@@ -155,7 +172,7 @@ extension MarketBook: Collection {
 }
 
 extension MarketBook {
-  public subscript(marketId: Int) -> RunnerBook? {
+  public subscript(marketId: Int) -> RunnerBookType? {
     get { return runners[marketId] }
     set { runners[marketId] = newValue }
   }

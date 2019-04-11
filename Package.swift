@@ -1,4 +1,4 @@
-// swift-tools-version:4.0
+// swift-tools-version:5.0
 import PackageDescription
 
 let package = Package(name: "BetSwift",
@@ -15,7 +15,7 @@ let package = Package(name: "BetSwift",
   ],
   targets: [
     .target(name: "BetSwift",
-            dependencies: ["Kitura-net",
+            dependencies: ["KituraNet",
                            "NIO",
                            "NIOOpenSSL",
                            "CLibreSSL",

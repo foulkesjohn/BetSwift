@@ -7,7 +7,7 @@ public enum EventLoopError: Swift.Error {
 
 public extension EventLoop {
 
-  public func resource<Input: Codable & EndpointType & ResourceType>(input: Input) -> EventLoopFuture<Input.ReturnType>? {
+  func resource<Input: Codable & EndpointType & ResourceType>(input: Input) -> EventLoopFuture<Input.ReturnType>? {
     let operation = Operation(input)
     guard let data = try? JSONEncoder().encode(operation) else { return nil }
       let resource = Resource<OperationResult<Input.ReturnType>>(url: input.url,
