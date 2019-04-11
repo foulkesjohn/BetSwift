@@ -40,7 +40,7 @@ public final class Webservice {
   
   public func load<A>(_ resource: Resource<A>) -> EventLoopFuture<A> {
     let loop = group.next()
-    let promise: EventLoopPromise<A> = loop.newPromise()
+    let promise: EventLoopPromise<A> = loop.makePromise()
     var request = URLRequest(url: resource.url)
     request.httpMethod = resource.method.method
     request.allHTTPHeaderFields = headers()
@@ -52,13 +52,13 @@ public final class Webservice {
       guard let result = data.flatMap(resource.parse) else {
         if let data = data,
           let error = try? decoder.decode(BetfairError.self, from: data) {
-          promise.fail(error: Error.betfair(error))
+          promise.fail(Error.betfair(error))
         } else {
-          promise.fail(error: Error.unknown)
+          promise.fail(Error.unknown)
         }
         return
       }
-      promise.succeed(result: result)
+      promise.succeed(result)
       }.resume()
     return promise.futureResult
   }

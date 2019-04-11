@@ -10,11 +10,22 @@ public final class LineDelimiterCodec: ByteToMessageDecoder {
   
   public init() {}
   
-  public func decode(ctx: ChannelHandlerContext,
+  public func decode(context: ChannelHandlerContext,
                      buffer: inout ByteBuffer) throws -> DecodingState {
-    let readable = buffer.withUnsafeReadableBytes { $0.index(of: newLine) }
+    return _decode(context: context, buffer: &buffer)
+  }
+  
+  public func decodeLast(context: ChannelHandlerContext,
+                         buffer: inout ByteBuffer,
+                         seenEOF: Bool) throws -> DecodingState {
+    return _decode(context: context, buffer: &buffer)
+  }
+  
+  private func _decode(context: ChannelHandlerContext,
+                      buffer: inout ByteBuffer) -> DecodingState {
+    let readable = buffer.withUnsafeReadableBytes { $0.firstIndex(of: newLine) }
     if let r = readable {
-      ctx.fireChannelRead(self.wrapInboundOut(buffer.readSlice(length: r + 1)!))
+      context.fireChannelRead(self.wrapInboundOut(buffer.readSlice(length: r + 1)!))
       return .continue
     }
     return .needMoreData

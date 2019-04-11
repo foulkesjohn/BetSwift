@@ -1,4 +1,4 @@
-// swift-tools-version:4.0
+// swift-tools-version:5.0
 import PackageDescription
 
 let package = Package(name: "BetSwift",
@@ -7,16 +7,16 @@ let package = Package(name: "BetSwift",
              targets: ["BetSwift"])
   ],
   dependencies: [
-    .package(url: "https://github.com/foulkesjohn/Kitura-net.git", .branch("master")),
-    .package(url: "https://github.com/apple/swift-nio.git", from: "1.0.0"),
-    .package(url: "https://github.com/apple/swift-nio-ssl.git", from: "1.0.0"),
-    .package(url: "https://github.com/vapor-community/clibressl.git", from: "1.0.0")
+    .package(url: "https://github.com/apple/swift-nio.git", .upToNextMajor(from: "2.0.0")),
+    .package(url: "https://github.com/apple/swift-nio-ssl.git", .upToNextMajor(from: "2.0.0")),
+    .package(url: "https://github.com/vapor-community/clibressl.git", from: "1.0.0"),
   ],
   targets: [
     .target(name: "BetSwift",
-            dependencies: ["Kitura-net",
-                           "NIO",
-                           "NIOOpenSSL",
+            dependencies: ["NIO",
+                           "NIOHTTP1",
+                           "NIOFoundationCompat",
+                           "NIOSSL",
                            "CLibreSSL"]),
     .testTarget(name: "BetSwiftTests", dependencies: ["BetSwift"])
   ])
