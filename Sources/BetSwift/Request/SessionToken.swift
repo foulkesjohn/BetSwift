@@ -59,7 +59,6 @@ public class SessionToken {
 //                   ClientRequest.Options.sslKey(params.certPath),
 //                   ClientRequest.Options.sslKeyPassphrase(params.certPassword)]
 //    let body = "username=\(params.username)&password=\(params.password)"
-//    
 //    let request = HTTP.request(options) {
 //      response in
 //      var data = Data()
