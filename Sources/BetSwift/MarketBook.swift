@@ -94,8 +94,19 @@ extension MarketCache {
   }
 }
 
-public struct MarketBook {
-  public typealias DictionaryType = [Int: RunnerBook]
+public protocol MarketBookType {
+  var totalMatched: Double? { get }
+  var publishTime: Date? { get }
+  var changeId: String? { get }
+  var id: String { get }
+  var inPlay: Bool { get }
+  var status: String { get }
+  var overround: Double { get }
+  var underround: Double { get }
+}
+
+public struct MarketBook: MarketBookType {
+  public typealias DictionaryType = [Int: RunnerBookType]
   
   fileprivate var runners = DictionaryType()
   fileprivate(set) var definition: MarketChange.MarketDefinition
@@ -166,7 +177,7 @@ extension MarketBook: Collection {
 }
 
 extension MarketBook {
-  public subscript(marketId: Int) -> RunnerBook? {
+  public subscript(marketId: Int) -> RunnerBookType? {
     get { return runners[marketId] }
     set { runners[marketId] = newValue }
   }
