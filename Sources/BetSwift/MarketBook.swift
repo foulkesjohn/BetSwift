@@ -1,7 +1,18 @@
 import Foundation
 
-public struct RunnerBook {
-  let id: Int
+public protocol RunnerBookType {
+  var id: Int { get }
+  var lastPriceTraded: Double { get set }
+  var totalMatched: Double  { get set }
+  var availableToBack: RunnerChangeTuple  { get set }
+  var availableToLay: RunnerChangeTuple { get set }
+  var bestAvailableToBack: RunnerChangeTriple { get set }
+  var bestAvailableToLay: RunnerChangeTriple { get set }
+  var isActive: Bool { get set }
+}
+
+public struct RunnerBook: RunnerBookType {
+  public let id: Int
   public var lastPriceTraded: Double
   public var totalMatched: Double
   public var availableToBack: RunnerChangeTuple
