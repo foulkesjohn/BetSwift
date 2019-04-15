@@ -86,9 +86,11 @@ public final class HTTPClient {
   private let hostname: String
   private let port: Int
   private let eventGroup: EventLoopGroup
+  private let tlsConfiguration: TLSConfiguration
   
   public init(url: URL,
-              eventGroup: EventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: System.coreCount)) throws {
+              eventGroup: EventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: System.coreCount),
+              tlsConfiguration: TLSConfiguration = .forClient()) throws {
     guard let scheme = url.scheme else {
       throw HTTPClientError.malformedURL
     }
@@ -102,14 +104,17 @@ public final class HTTPClient {
     self.hostname = hostname
     self.port = port
     self.eventGroup = eventGroup
+    self.tlsConfiguration = tlsConfiguration
   }
   
   public init(hostname: String,
               port: Int,
-              eventGroup: EventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: System.coreCount)) {
+              eventGroup: EventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: System.coreCount),
+              tlsConfiguration: TLSConfiguration = .forClient()) {
     self.hostname = hostname
     self.port = port
     self.eventGroup = eventGroup
+    self.tlsConfiguration = tlsConfiguration
   }
   
   public func connect(_ request: Request) throws -> EventLoopFuture<Response> {
@@ -127,9 +132,9 @@ public final class HTTPClient {
     var preHandlers = [ChannelHandler]()
     if (port == 443) {
       do {
-        let tlsConfiguration = TLSConfiguration.forClient()
         let sslContext = try NIOSSLContext(configuration: tlsConfiguration)
-        let tlsHandler = try NIOSSLClientHandler(context: sslContext, serverHostname: hostname)
+        let tlsHandler = try NIOSSLClientHandler(context: sslContext,
+                                                 serverHostname: hostname)
         preHandlers.append(tlsHandler)
       } catch {
         print("Unable to setup TLS: \(error)")
