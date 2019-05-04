@@ -9,7 +9,7 @@ public protocol RunnerBookType {
   var bestAvailableToBack: RunnerChangeTriple { get set }
   var bestAvailableToLay: RunnerChangeTriple { get set }
   var isActive: Bool { get set }
-  var changeId: String { get }
+  var changeId: String { get set }
 }
 
 public struct RunnerBook: RunnerBookType {
@@ -230,6 +230,7 @@ extension MarketBook {
             let isActive = runner.status == .active
             runnerBook.isActive = isActive
           }
+          runnerBook.changeId = marketChange.identifier
           self[runnerChange.id] = runnerBook
         } else {
           let isActive = runner?.status == .active
