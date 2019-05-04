@@ -9,6 +9,7 @@ public protocol RunnerBookType {
   var bestAvailableToBack: RunnerChangeTriple { get set }
   var bestAvailableToLay: RunnerChangeTriple { get set }
   var isActive: Bool { get set }
+  var changeId: String { get }
 }
 
 public struct RunnerBook: RunnerBookType {
@@ -20,6 +21,7 @@ public struct RunnerBook: RunnerBookType {
   public var bestAvailableToBack: RunnerChangeTriple
   public var bestAvailableToLay: RunnerChangeTriple
   public var isActive: Bool
+  public var changeId: String
   public init(id: Int,
               lastPriceTraded: Double = 0,
               totalMatched: Double = 0,
@@ -27,7 +29,8 @@ public struct RunnerBook: RunnerBookType {
               availableToLay: RunnerChangeTuple = [],
               bestAvailableToBack: RunnerChangeTriple = [],
               bestAvailableToLay: RunnerChangeTriple = [],
-              isActive: Bool = true) {
+              isActive: Bool = true,
+              changeId: String = "non-available") {
     self.id = id
     self.totalMatched = totalMatched
     self.lastPriceTraded = lastPriceTraded
@@ -41,6 +44,7 @@ public struct RunnerBook: RunnerBookType {
     self.bestAvailableToLay = bestAvailableToLay
     self.bestAvailableToLay.sort(by :<)
     self.isActive = isActive
+    self.changeId = changeId
   }
 }
 
@@ -236,7 +240,8 @@ extension MarketBook {
                                       availableToLay: runnerChange.atl ?? [],
                                       bestAvailableToBack: runnerChange.batb ?? [],
                                       bestAvailableToLay: runnerChange.batl ?? [],
-                                      isActive: isActive)
+                                      isActive: isActive,
+                                      changeId: marketChange.identifier)
           self[runnerChange.id] = runnerBook
         }
       }
