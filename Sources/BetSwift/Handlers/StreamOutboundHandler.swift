@@ -10,12 +10,12 @@ public class StreamOutboundHandler: ChannelOutboundHandler {
   
   public init() {}
   
-  public func write(ctx: ChannelHandlerContext, data: NIOAny, promise: EventLoopPromise<Void>?) {
+  public func write(context: ChannelHandlerContext, data: NIOAny, promise: EventLoopPromise<Void>?) {
     let op = unwrapOutboundIn(data)
     let outMessage = message(from: op)
-    var buffer = ctx.channel.allocator.buffer(capacity: outMessage.utf8.count)
-    buffer.write(string: outMessage)
-    ctx.writeAndFlush(wrapOutboundOut(buffer), promise: nil)
+    var buffer = context.channel.allocator.buffer(capacity: outMessage.utf8.count)
+    buffer.writeString(outMessage)
+    context.writeAndFlush(wrapOutboundOut(buffer), promise: nil)
   }
   
   private func message(from op: Op) -> String {

@@ -12,10 +12,10 @@ public extension EventLoop {
     guard let data = try? JSONEncoder().encode(operation) else { return nil }
       let resource = Resource<OperationResult<Input.ReturnType>>(url: input.url,
                                                                  method: HttpMethod.post(data))
-    return Webservice.shared.load(resource).then {
+    return Webservice.shared.load(resource).flatMap {
       [unowned self]
       opResult in
-      return self.newSucceededFuture(result: opResult.result)
+      return self.makeSucceededFuture(opResult.result)
     }
   }
   

@@ -7,18 +7,16 @@ let package = Package(name: "BetSwift",
              targets: ["BetSwift"])
   ],
   dependencies: [
-    .package(url: "https://github.com/foulkesjohn/Kitura-net.git", .branch("master")),
-    .package(url: "https://github.com/apple/swift-nio.git", from: "1.0.0"),
-    .package(url: "https://github.com/apple/swift-nio-ssl.git", from: "1.0.0"),
-    .package(url: "https://github.com/vapor-community/clibressl.git", from: "1.0.0"),
-    .package(url: "https://github.com/foulkesjohn/tracelog.git", from: "4.0.2"),
+    .package(url: "https://github.com/apple/swift-nio.git", .upToNextMajor(from: "2.0.0")),
+    .package(url: "https://github.com/apple/swift-nio-ssl.git", .upToNextMajor(from: "2.0.0")),
+    .package(url: "https://github.com/tonystone/tracelog.git", .branch("master")),
   ],
   targets: [
     .target(name: "BetSwift",
-            dependencies: ["KituraNet",
-                           "NIO",
-                           "NIOOpenSSL",
-                           "CLibreSSL",
+            dependencies: ["NIO",
+                           "NIOHTTP1",
+                           "NIOFoundationCompat",
+                           "NIOSSL",
                            "TraceLog"]),
     .testTarget(name: "BetSwiftTests", dependencies: ["BetSwift"])
   ])
